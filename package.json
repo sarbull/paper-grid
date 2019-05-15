@@ -1,5 +1,5 @@
 {
-  "name": "paper-grid",
+  "name": "@fluidnext-polymer/paper-grid",
   "version": "1.0.0",
   "description": "Grid component with drang and drop",
   "scripts": {
