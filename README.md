@@ -1,10 +1,11 @@
-# \<the-grid\>
+[![npm version](https://badge.fury.io/js/%40fluidnext-polymer%2Fpaper-input-file.svg)](https://badge.fury.io/js/%40fluidnext-polymer%2Fpaper-grid)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/@fluidnext-polymer/paper-grid)
 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/vpusher/the-grid)
 
-> A digital frontier...
+# Paper Grid
+Is a [Polymer 3](https://polymer-library.polymer-project.org/3.0/docs/devguide/feature-overview) web component for orgnizing grids with elements inside. The elements inside the grid can be dragged, resized and also animated.
 
-Grid layout custom element based on **ES2015** and **Polymer 2.0**.
+See: [Demo](https://www.webcomponents.org/element/@fluidnext-polymer/paper-grid/demo/demo/index.html)
 
 Features:
 
