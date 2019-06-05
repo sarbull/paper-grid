@@ -141,7 +141,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
             /**
              * Whether the moves and resizes are animated or not.
              * @type {boolean}
-             */
+            */
             animated: {
                 type: Boolean,
                 value: false,
@@ -176,10 +176,45 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                 type: Boolean,
                 value: false,
                 reflectToAttribute: true,
+            },
+            /**
+             * Enable Auto Adjustment to fit the browser window
+             * @type {Boolean}
+             */
+            autoAdjustment: {
+                type: Boolean,
+                value: false,
+                observer: '_autoAdjustmentChanged'
             }
         }
     }
 
+    /**
+     * Adapt the grid to the window
+     * @private
+     */
+    _adjustToWindow() {
+        if(window.innerWidth < this.clientWidth){
+            while(window.innerWidth < this.clientWidth){
+                this.colCount = this.colCount -1;
+            }
+        } else {
+            let cellTotalWidth = this.cellWidth + this.cellMargin; 
+            while((cellTotalWidth * (this.colCount+1)) < window.innerWidth){
+                this.colCount = this.colCount +1;
+            }
+        }
+        if(window.innerHeight < this.clientHeight){
+            while(window.innerHeight < this.clientHeight){
+                this.rowCount = this.rowCount -1;
+            }
+        } else {
+            let cellTotalHeight = this.cellHeight + this.cellMargin; 
+            while((cellTotalHeight*(this.rowCount+1)) < window.innerHeight){
+                this.rowCount = this.rowCount +1;
+            }
+        }
+    }
 
     /**
      * Create a `<the-grid>` element.
@@ -194,10 +229,19 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         // The observed target is the grid element itself.
         observer.observe(this, config);
     }
+    
     connectedCallback () {
         super.connectedCallback();
         this.computeStyles();
     }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        if(this.autoAdjustment){
+            window.removeEventListener("resize", this._adjustToWindow.bind(this));
+        }
+    }
+
     /**
      * Handle event attachment when a mutation occurs. If call without any mutation update all current tiles/children.
      * @param {MutationRecord} [record] Mutation record holding the added or removed nodes.
@@ -553,6 +597,29 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
             }
         }
         return overlap;
+    }
+    /**
+     * start or stop grid adjustment to the window
+     * @private
+     */
+    _autoAdjustmentChanged(newValue, oldValue){
+        // console.log("old = " + oldValue);
+        // console.log("new = " + newValue);
+        switch(true){
+            case typeof(newValue) != "boolean":
+                if(oldValue) {
+                    window.removeEventListener("resize", this._adjustToWindow.bind(this));
+                }
+                this.autoAdjustment = oldValue;
+                break;
+            case newValue:
+                this._adjustToWindow();
+                window.addEventListener("resize", this._adjustToWindow.bind(this))
+                break;
+            case !newValue:
+                window.removeEventListener("resize", this._adjustToWindow.bind(this));
+                break;
+        }
     }
     /**
      * Checks if the given width or height as `value` is within grid constraints.

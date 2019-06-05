@@ -1,9 +1,12 @@
 {
   "name": "@fluidnext-polymer/paper-grid",
   "version": "3.0.0",
-  "description": "Grid component with drang and drop",
+  "description": "Grid component with drag and drop",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "polymer test",
+    "testChrome": "polymer test -l chrome",
+    "serve": "polymer serve",
+    "demo": "polymer serve --open"
   },
   "repository": {
     "type": "git",
@@ -15,8 +18,9 @@
     "html 5"
   ],
   "author": {
-    "name": "Daniel Leal",
-    "url": "https://github.com/danielgek"
+    "name": "Florian Maffini",
+    "email": "florian.maffini@free.fr",
+    "url": "https://github.com/vpusher"
   },
   "license": "ISC",
   "bugs": {
