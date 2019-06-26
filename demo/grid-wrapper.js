@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import {} from '@polymer/polymer/lib/elements/dom-repeat.js';
 import '../paper-grid.js';
 import '../debug-grid.js'
 
@@ -9,6 +10,8 @@ class GridWrapper extends PolymerElement {
                 :host {
                     display: block;
                 }
+
+                /* STYLE FROM grid-style.html [OLD version] */
                 paper-grid tile {
                     background: tomato;
                     opacity: 0.8;
@@ -89,6 +92,7 @@ class GridWrapper extends PolymerElement {
                 dom-repeat {
                     display: none;
                 }
+                /* THE END */
             </style>
             <div id="container">
                 <debug-grid cell-height="{{cellHeight}}" cell-width="{{cellWidth}}" cell-margin="{{cellMargin}}" col-count="{{colCount}}" row-count="{{rowCount}}"></debug-grid>

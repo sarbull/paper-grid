@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import { } from '@polymer/polymer/lib/elements/dom-repeat.js';
 
 class DebugGrid extends PolymerElement {
     static get template() {
