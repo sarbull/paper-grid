@@ -1,98 +1,16 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import {} from '@polymer/polymer/lib/elements/dom-repeat.js';
 import '../paper-grid.js';
-import '../debug-grid.js'
+import '../debug-grid.js';
+import './grid-styles.js';
 
 class GridWrapper extends PolymerElement {
     static get template() {
         return html`
-            <style>
+            <style include="grid-styles">
                 :host {
                     display: block;
                 }
-
-                /* STYLE FROM grid-style.html [OLD version] */
-                paper-grid tile {
-                    background: tomato;
-                    opacity: 0.8;
-                    color: white;
-                    cursor: move;
-                    overflow: hidden;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-                paper-grid [placeholder] {
-                    background: #afafaf;
-                }
-
-                paper-grid tile > span:not([resize]) {
-                    flex: 1;
-                    text-align: center;
-                    font-size: 2em;
-                }
-
-                paper-grid [resize] {
-                    position: absolute;
-                }
-
-                paper-grid [resize="bottom-right"] {
-                    bottom: 0;
-                    right: 0;
-                    cursor: nwse-resize;
-                }
-
-                paper-grid [resize="bottom-left"] {
-                    bottom: 0;
-                    left: 0;
-                    cursor: nesw-resize;
-                }
-
-                paper-grid [resize="top-right"] {
-                    top: 0;
-                    right: 0;
-                    cursor: nesw-resize;
-                }
-
-                paper-grid [resize="top-left"] {
-                    top: 0;
-                    left: 0;
-                    cursor: nwse-resize;
-                }
-
-                paper-grid [resize="left"] {
-                    top: 50%;
-                    left: 0;
-                    cursor: ew-resize;
-                    margin-top: -10px;
-                }
-
-                paper-grid [resize="top"] {
-                    top: 0%;
-                    width: 100%;
-                    text-align: center;
-                    cursor: ns-resize;
-                }
-
-                paper-grid [resize="right"] {
-                    top: 50%;
-                    right: 0;
-                    cursor: ew-resize;
-                    margin-top: -10px;
-                }
-
-                paper-grid [resize="bottom"] {
-                    bottom: 0;
-                    width: 100%;
-                    text-align: center;
-                    cursor: ns-resize;
-                }
-
-                dom-repeat {
-                    display: none;
-                }
-                /* THE END */
             </style>
             <div id="container">
                 <debug-grid cell-height="{{cellHeight}}" cell-width="{{cellWidth}}" cell-margin="{{cellMargin}}" col-count="{{colCount}}" row-count="{{rowCount}}"></debug-grid>
