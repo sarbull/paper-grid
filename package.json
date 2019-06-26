@@ -3,8 +3,8 @@
   "version": "3.0.0",
   "description": "Grid component with drag and drop",
   "scripts": {
-    "test": "polymer test",
-    "testChrome": "polymer test -l chrome",
+    "test-safari": "polymer test -l safari",
+    "test-chrome": "polymer test -l chrome",
     "serve": "polymer serve",
     "demo": "polymer serve --open"
   },
@@ -27,6 +27,7 @@
     "url": "https://github.com/fluidnext/paper-grid/issues"
   },
   "homepage": "https://github.com/fluidnext/paper-grid#readme",
+  "main": "paper-grid.js",
   "devDependencies": {
     "coveralls": "^3.0.3",
     "mocha-lcov-reporter": "^1.3.0",
@@ -39,19 +40,24 @@
     "web-component-tester": "^6.9.2",
     "wct-mocha": "^1.0.0",
     "@polymer/iron-test-helpers": "^3.0.1",
-    "eslint": "^5.16.0"
+    "eslint": "^5.16.0",
+    "sinon": "^7.3.1"
   },
   "dependencies": {
     "@polymer/polymer": "^3.2.0"
   },
   "contributors": [
     {
-      "name": "Simone Spada",
-      "url": "https://github.com/SimoneSpada"
+      "name": "Emanuele Dessi",
+      "url": "https://github.com/EmanueleDessi"
     },
     {
       "name": "Antonio Visalli",
       "url": "https://github.com/visa4fluid"
+    },
+    {
+      "name": "Simone Spada",
+      "url": "https://github.com/SimoneSpada"
     }
   ]
 }

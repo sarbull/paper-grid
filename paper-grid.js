@@ -217,7 +217,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
     }
 
     /**
-     * Create a `<the-grid>` element.
+     * Create a `<paper-grid>` element.
      */
     constructor() {
         super();
@@ -317,11 +317,11 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
      *
      * It allows hot update of the grid attributes/properties, generating an updated style sheet.
      *
-     * IMPORTANT: If you have several `<the-grid>` in your page, be sure to give them a proper `id` attribute, so they can have their own style sheet without any collision.
+     * IMPORTANT: If you have several `<paper-grid>` in your page, be sure to give them a proper `id` attribute, so they can have their own style sheet without any collision.
      */
     computeStyles() {
         const idSelector = this.id ? `#${this.id}` : '';
-        const selfSelector = `the-grid${idSelector}`;
+        const selfSelector = `paper-grid${idSelector}`;
         const startSelector = '#container > ::slotted(';
         const endSelector = ')';
         const customStyle = this._customStyle || document.createElement('custom-style');
@@ -701,7 +701,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         }
     }
     /**
-     * Find the tile element (direct children of `the-grid`) hosting the given resizer element.
+     * Find the tile element (direct children of `paper-grid`) hosting the given resizer element.
      * @param {HTMLElement} resizer element used as resizer gripper.
      * @returns {HTMLElement} The tile element hosting the resizer.
      */
