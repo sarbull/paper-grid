@@ -20,7 +20,6 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                     --grid-cell-margin: 10px;
                     --grid-move-animation-transition: 'none';
                     --grid-resize-animation-transition: 'none';
-                    @apply --paper-grid-tile-style-test;
                 }
                 #container {
                     position: relative;
@@ -59,71 +58,89 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                     @apply --paper-grid-tile-style;
                 }
     
-                /*paper-grid [placeholder] {
-                    background: #afafaf;
+                #container > ::slotted([placeholder]) {
+                    background: var(--paper-grid-background-placeholder, #afafaf);
                 }
             
-                paper-grid tile>span:not([resize]) {
+                #container > ::slotted(tile)>span:not([resize]) { /* test */
                     flex: 1;
                     text-align: center;
                     font-size: 2em;
+
+                    @apply --paper-grid-tile-not-resize;
                 }
             
-                paper-grid [resize] {
+                #container > ::slotted([resize]) {
                     position: absolute;
                 }
             
-                paper-grid [resize="bottom-right"] {
+                #container > ::slotted([resize="bottom-right"]) {
                     bottom: 0;
                     right: 0;
                     cursor: nwse-resize;
+
+                    @apply --paper-grid-tile-resize-bottom-right;
                 }
             
-                paper-grid [resize="bottom-left"] {
+                #container > ::slotted([resize="bottom-left"]) {
                     bottom: 0;
                     left: 0;
                     cursor: nesw-resize;
+
+                    @apply --paper-grid-tile-resize-bottom-left
                 }
             
-                paper-grid [resize="top-right"] {
+                #container > ::slotted([resize="top-right"]) {
                     top: 0;
                     right: 0;
                     cursor: nesw-resize;
+
+                    @apply --paper-grid-tile-resize-top-right
                 }
             
-                paper-grid [resize="top-left"] {
+                #container > ::slotted([resize="top-left"]) {
                     top: 0;
                     left: 0;
                     cursor: nwse-resize;
+
+                    @apply --paper-grid-tile-resize-top-left
                 }
             
-                paper-grid [resize="left"] {
+                #container > ::slotted([resize="left"]) {
                     top: 50%;
                     left: 0;
                     cursor: ew-resize;
                     margin-top: -10px;
+
+                    @apply --paper-grid-tile-resize-left
                 }
             
-                paper-grid [resize="top"] {
+                #container > ::slotted([resize="top"]) {
                     top: 0%;
                     width: 100%;
                     text-align: center;
                     cursor: ns-resize;
+
+                    @apply --paper-grid-tile-resize-top
                 }
             
-                paper-grid [resize="right"] {
+                #container > ::slotted([resize="right"]) {
                     top: 50%;
                     right: 0;
                     cursor: ew-resize;
                     margin-top: -10px;
+
+                    @apply --paper-grid-tile-resize-right
                 }
             
-                paper-grid [resize="bottom"] {
+                #container > ::slotted([resize="bottom"]) {
                     bottom: 0;
                     width: 100%;
                     text-align: center;
                     cursor: ns-resize;
-                }*/
+
+                    @apply --paper-grid-tile-resize-bottom
+                }
                 /* END */
             </style>
             <div id="container">
