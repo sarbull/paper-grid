@@ -7,8 +7,6 @@
 
 Is a [Polymer 3](https://polymer-library.polymer-project.org/3.0/docs/devguide/feature-overview) web component for orgnizing grids with elements inside. The elements inside the grid can be dragged, resized and also animated.
 
-See: [Demo](https://www.webcomponents.org/element/@fluidnext-polymer/paper-grid/demo/demo/index.html)
-
 Features:
 
 * Draggable tiles

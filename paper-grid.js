@@ -3,9 +3,16 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 
 /**
+ * @demo demo/index.html Demos
+ * @demo demo / playground.html Playground
+ * @demo demo / responsive.html Responsiveness
+ */
+
+/**
  * @customElement
  * @polymer
  */
+
 class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) {
 
     static get template() {
@@ -42,10 +49,8 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                     transition: none;
                 }
 
-                /* Style Slot */
-                
+                /* Style Tile inside Slot */
                 #container > ::slotted(tile){
-                    
                     background: tomato;
                     opacity: 0.8;
                     color: white;
@@ -60,86 +65,6 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
     
                 #container > ::slotted([placeholder]) {
                     background: var(--paper-grid-background-placeholder, #afafaf);
-                }
-            
-                #container > ::slotted(tile)>span:not([resize]) { /* test */
-                    flex: 1;
-                    text-align: center;
-                    font-size: 2em;
-
-                    @apply --paper-grid-tile-not-resize;
-                }
-            
-                #container > ::slotted([resize]) {
-                    position: absolute;
-                }
-            
-                #container > ::slotted([resize="bottom-right"]) {
-                    bottom: 0;
-                    right: 0;
-                    cursor: nwse-resize;
-
-                    @apply --paper-grid-tile-resize-bottom-right;
-                }
-            
-                #container > ::slotted([resize="bottom-left"]) {
-                    bottom: 0;
-                    left: 0;
-                    cursor: nesw-resize;
-
-                    @apply --paper-grid-tile-resize-bottom-left
-                }
-            
-                #container > ::slotted([resize="top-right"]) {
-                    top: 0;
-                    right: 0;
-                    cursor: nesw-resize;
-
-                    @apply --paper-grid-tile-resize-top-right
-                }
-            
-                #container > ::slotted([resize="top-left"]) {
-                    top: 0;
-                    left: 0;
-                    cursor: nwse-resize;
-
-                    @apply --paper-grid-tile-resize-top-left
-                }
-            
-                #container > ::slotted([resize="left"]) {
-                    top: 50%;
-                    left: 0;
-                    cursor: ew-resize;
-                    margin-top: -10px;
-
-                    @apply --paper-grid-tile-resize-left
-                }
-            
-                #container > ::slotted([resize="top"]) {
-                    top: 0%;
-                    width: 100%;
-                    text-align: center;
-                    cursor: ns-resize;
-
-                    @apply --paper-grid-tile-resize-top
-                }
-            
-                #container > ::slotted([resize="right"]) {
-                    top: 50%;
-                    right: 0;
-                    cursor: ew-resize;
-                    margin-top: -10px;
-
-                    @apply --paper-grid-tile-resize-right
-                }
-            
-                #container > ::slotted([resize="bottom"]) {
-                    bottom: 0;
-                    width: 100%;
-                    text-align: center;
-                    cursor: ns-resize;
-
-                    @apply --paper-grid-tile-resize-bottom
                 }
                 /* END */
             </style>
@@ -294,7 +219,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
      * Adapt the grid to the window
      * @private
      */
-    _adjustToWindow() {
+    _adjustToWindow() { //parent in parameters
         if(window.innerWidth < this.clientWidth){
             while(window.innerWidth < this.clientWidth){
                 this.colCount = this.colCount -1;
@@ -715,7 +640,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                 break;
             case newValue:
                 this._adjustToWindow();
-                window.addEventListener("resize", this._adjustToWindow.bind(this))
+                window.addEventListener("resize", this._adjustToWindow.bind(this));
                 break;
             case !newValue:
                 window.removeEventListener("resize", this._adjustToWindow.bind(this));

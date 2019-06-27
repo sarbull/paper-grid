@@ -2,6 +2,7 @@ import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 import '../paper-grid.js';
 import '../debug-grid.js';
+import { gridStyles } from './grid-styles.js';
 
 class GridWrapper extends PolymerElement {
     static get template() {
@@ -11,6 +12,7 @@ class GridWrapper extends PolymerElement {
                     display: block;
                 }
             </style>
+            ${gridStyles}
             <div id="container">
                 <debug-grid cell-height="{{cellHeight}}" cell-width="{{cellWidth}}" cell-margin="{{cellMargin}}" col-count="{{colCount}}" row-count="{{rowCount}}"></debug-grid>
                 <paper-grid cell-height="{{cellHeight}}" cell-width="{{cellWidth}}" cell-margin="{{cellMargin}}" col-count="{{colCount}}" row-count="{{rowCount}}" overlappable col-autogrow row-autogrow draggable resizable animated>
