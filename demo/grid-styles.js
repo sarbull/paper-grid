@@ -1,22 +1,20 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { html } from '@polymer/polymer/polymer-element.js';
 
-const gridStyles = document.createElement('dom-module');
-
-gridStyles.innerHTML =
-    `<template>
-        <style>
-        paper-grid tile {
-            background: tomato;
-            opacity: 0.8;
-            color: white;
-            cursor: move;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+const gridStyles = html`
+<custome-style>
+    <style>
+        :root{
+            --paper-grid-tile-style: {
+                background: blue;
+            }
+            
+            --paper-grid-tile-style-test: {
+                background: red;
+                color: black;
+            }
         }
     
-        paper-grid [placeholder] {
+       /* paper-grid [placeholder] {
             background: #afafaf;
         }
     
@@ -84,8 +82,8 @@ gridStyles.innerHTML =
     
         dom-repeat {
             display: none;
-        }
+        }*/
     </style>
-  </template>`;
-
-  gridStyles.register('grid-styles');
+</custome-style>
+    `;
+document.head.appendChild(gridStyles.content);

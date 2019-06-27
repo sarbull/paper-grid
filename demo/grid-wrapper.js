@@ -1,13 +1,12 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
-import {} from '@polymer/polymer/lib/elements/dom-repeat.js';
+import '@polymer/polymer/lib/elements/dom-repeat.js';
 import '../paper-grid.js';
 import '../debug-grid.js';
-import './grid-styles.js';
 
 class GridWrapper extends PolymerElement {
     static get template() {
         return html`
-            <style include="grid-styles">
+            <style>
                 :host {
                     display: block;
                 }
