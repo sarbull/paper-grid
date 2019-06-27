@@ -13,6 +13,9 @@ class GridWrapper extends PolymerElement {
                 }
             </style>
             ${gridStyles}
+            <!-- <div id="container-input">
+
+            </div> -->
             <div id="container">
                 <debug-grid cell-height="{{cellHeight}}" cell-width="{{cellWidth}}" cell-margin="{{cellMargin}}" col-count="{{colCount}}" row-count="{{rowCount}}"></debug-grid>
                 <paper-grid cell-height="{{cellHeight}}" cell-width="{{cellWidth}}" cell-margin="{{cellMargin}}" col-count="{{colCount}}" row-count="{{rowCount}}" overlappable col-autogrow row-autogrow draggable resizable animated>

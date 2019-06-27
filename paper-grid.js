@@ -27,6 +27,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                     --grid-cell-margin: 10px;
                     --grid-move-animation-transition: 'none';
                     --grid-resize-animation-transition: 'none';
+                    /*background-color: var(--grid-background-color, #fff);*/
                 }
                 #container {
                     position: relative;
@@ -209,8 +210,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
              */
             autoAdjustment: {
                 type: Boolean,
-                value: false,
-                observer: '_autoAdjustmentChanged'
+                value: false
             }
         }
     }
@@ -219,24 +219,25 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
      * Adapt the grid to the window
      * @private
      */
-    _adjustToWindow() { //parent in parameters
-        if(window.innerWidth < this.clientWidth){
-            while(window.innerWidth < this.clientWidth){
+    _adjustToWindow() {
+        let parent = this.parentNode;
+        if(parent.clientWidth < this.clientWidth){
+            while(parent.clientWidth < this.clientWidth){
                 this.colCount = this.colCount -1;
             }
         } else {
             let cellTotalWidth = this.cellWidth + this.cellMargin; 
-            while((cellTotalWidth * (this.colCount+1)) < window.innerWidth){
+            while((cellTotalWidth * (this.colCount+1)) < parent.clientWidth){
                 this.colCount = this.colCount +1;
             }
         }
-        if(window.innerHeight < this.clientHeight){
-            while(window.innerHeight < this.clientHeight){
+        if(parent.clientHeight < this.clientHeight){
+            while(parent.clientHeight < this.clientHeight){
                 this.rowCount = this.rowCount -1;
             }
         } else {
             let cellTotalHeight = this.cellHeight + this.cellMargin; 
-            while((cellTotalHeight*(this.rowCount+1)) < window.innerHeight){
+            while((cellTotalHeight*(this.rowCount+1)) < parent.clientHeight){
                 this.rowCount = this.rowCount +1;
             }
         }
@@ -255,6 +256,14 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         // The observed target is the grid element itself.
         observer.observe(this, config);
     }
+
+    ready() {
+        super.ready();
+        if(this.autoAdjustment === true){
+            window.addEventListener("resize", this._adjustToWindow.bind(this));
+            this._adjustToWindow();
+        }
+    }
     
     connectedCallback () {
         super.connectedCallback();
@@ -263,7 +272,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        if(this.autoAdjustment){
+        if(this.autoAdjustment === true){
             window.removeEventListener("resize", this._adjustToWindow.bind(this));
         }
     }
@@ -624,29 +633,29 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         }
         return overlap;
     }
-    /**
-     * start or stop grid adjustment to the window
-     * @private
-     */
-    _autoAdjustmentChanged(newValue, oldValue){
-        // console.log("old = " + oldValue);
-        // console.log("new = " + newValue);
-        switch(true){
-            case typeof(newValue) != "boolean":
-                if(oldValue) {
-                    window.removeEventListener("resize", this._adjustToWindow.bind(this));
-                }
-                this.autoAdjustment = oldValue;
-                break;
-            case newValue:
-                this._adjustToWindow();
-                window.addEventListener("resize", this._adjustToWindow.bind(this));
-                break;
-            case !newValue:
-                window.removeEventListener("resize", this._adjustToWindow.bind(this));
-                break;
-        }
-    }
+    // /**
+    //  * start or stop grid adjustment to the window
+    //  * @private
+    //  */
+    // _autoAdjustmentChanged(newValue, oldValue){
+    //     // console.log("old = " + oldValue);
+    //     // console.log("new = " + newValue);
+    //     switch(true){
+    //         case typeof(newValue) != "boolean":
+    //             if(oldValue) {
+    //                 window.removeEventListener("resize", this._adjustToWindow.bind(this));
+    //             }
+    //             this.autoAdjustment = oldValue;
+    //             break;
+    //         case newValue:
+    //             this._adjustToWindow();
+    //             window.addEventListener("resize", this._adjustToWindow.bind(this));
+    //             break;
+    //         case !newValue:
+    //             window.removeEventListener("resize", this._adjustToWindow.bind(this));
+    //             break;
+    //     }
+    // }
     /**
      * Checks if the given width or height as `value` is within grid constraints.
      * @param {Number} value in grid unit.
