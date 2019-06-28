@@ -1,4 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import '@polymer/paper-input/paper-input.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 import '../paper-grid.js';
 import '../debug-grid.js';
@@ -11,11 +12,26 @@ class GridWrapper extends PolymerElement {
                 :host {
                     display: block;
                 }
+                #container{
+                    display: block;
+                }
+                #containerInput{
+                    display: flex;
+                    justify-content: space-between;
+                    width: 70%;
+                    padding: 10px;
+                    margin: 20px;
+                    border: 1px solid #000;
+                }
             </style>
             ${gridStyles}
-            <!-- <div id="container-input">
-
-            </div> -->
+            <div id="containerInput">
+                <paper-input label="Cell Height" value="{{cellHeight}}" type="number" required></paper-input>
+                <paper-input label="Cell Width" value="{{cellWidth}}" type="number" required></paper-input>
+                <paper-input label="Col Count" value="{{colCount}}" type="number" required></paper-input>
+                <paper-input label="Row Count" value="{{rowCount}}" type="number" required></paper-input>
+                <paper-input label="Cell Margin" value="{{cellMargin}}" type="number" required></paper-input>
+            </div>
             <div id="container">
                 <debug-grid cell-height="{{cellHeight}}" cell-width="{{cellWidth}}" cell-margin="{{cellMargin}}" col-count="{{colCount}}" row-count="{{rowCount}}"></debug-grid>
                 <paper-grid cell-height="{{cellHeight}}" cell-width="{{cellWidth}}" cell-margin="{{cellMargin}}" col-count="{{colCount}}" row-count="{{rowCount}}" overlappable col-autogrow row-autogrow draggable resizable animated>
@@ -76,7 +92,7 @@ class GridWrapper extends PolymerElement {
             },
             colCount: {
                 type: Number,
-                value: 10
+                value: 17
             }
         }
     }
