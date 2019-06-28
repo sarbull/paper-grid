@@ -127,7 +127,27 @@ Resize grippers can take the following values:
 * **bottom-left**: resize the tile by the bottom and left edges at the same time.
 * **bottom-right**: resize the tile by the bottom and right edges at the same time.
 
-> Several grippers can be used for the same tile. They can be nested wherever in the tile element.
+> Several grippers can be used for the same tile. They can be nested wherever in the tile element
+
+### The auto-adjustment on paper-grid
+
+If you need a paper-grid which work with the container dimension, use the `auto-adjustment` attribute.     
+if the size change the component listen resize event and start `_adjustToWindow` function.    
+
+```html
+<div id="container">
+        <paper-grid auto-adjustment animated id="grid" draggable cell-margin="5">
+            <tile col="1" row="1" height="1" width="1">Drag me</tile>
+        </paper-grid>
+    </div>
+```
+
+> Default value is false, you could see demo element on `demo/auto-adjustment.html`
+
+### Custome Style, from outside
+
+**_--paper-grid-tile-style_**: Style class for all tail in `paper-grid`.          
+**_--paper-grid-background-placeholder_**: Background-color for tail placeholder.          
 
 ## Contributing
 If you want to send a PR to this element, here are
