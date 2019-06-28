@@ -3,9 +3,16 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 
 /**
+ * @demo demo/index.html Demos
+ * @demo demo / playground.html Playground
+ * @demo demo / responsive.html Responsiveness
+ */
+
+/**
  * @customElement
  * @polymer
  */
+
 class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) {
 
     static get template() {
@@ -20,6 +27,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                     --grid-cell-margin: 10px;
                     --grid-move-animation-transition: 'none';
                     --grid-resize-animation-transition: 'none';
+                    /*background-color: var(--grid-background-color, #fff);*/
                 }
                 #container {
                     position: relative;
@@ -41,6 +49,25 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                     display: none;
                     transition: none;
                 }
+
+                /* Style Tile inside Slot */
+                #container > ::slotted(tile){
+                    background: tomato;
+                    opacity: 0.8;
+                    color: white;
+                    cursor: move;
+                    overflow: hidden;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    @apply --paper-grid-tile-style;
+                }
+    
+                #container > ::slotted([placeholder]) {
+                    background: var(--paper-grid-background-placeholder, #afafaf);
+                }
+                /* END */
             </style>
             <div id="container">
                 <slot></slot>
@@ -183,8 +210,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
              */
             autoAdjustment: {
                 type: Boolean,
-                value: false,
-                observer: '_autoAdjustmentChanged'
+                value: false
             }
         }
     }
@@ -194,30 +220,31 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
      * @private
      */
     _adjustToWindow() {
-        if(window.innerWidth < this.clientWidth){
-            while(window.innerWidth < this.clientWidth){
+        let parent = this.parentNode;
+        if(parent.clientWidth < this.clientWidth){
+            while(parent.clientWidth < this.clientWidth){
                 this.colCount = this.colCount -1;
             }
         } else {
             let cellTotalWidth = this.cellWidth + this.cellMargin; 
-            while((cellTotalWidth * (this.colCount+1)) < window.innerWidth){
+            while((cellTotalWidth * (this.colCount+1)) < parent.clientWidth){
                 this.colCount = this.colCount +1;
             }
         }
-        if(window.innerHeight < this.clientHeight){
-            while(window.innerHeight < this.clientHeight){
+        if(parent.clientHeight < this.clientHeight){
+            while(parent.clientHeight < this.clientHeight){
                 this.rowCount = this.rowCount -1;
             }
         } else {
             let cellTotalHeight = this.cellHeight + this.cellMargin; 
-            while((cellTotalHeight*(this.rowCount+1)) < window.innerHeight){
+            while((cellTotalHeight*(this.rowCount+1)) < parent.clientHeight){
                 this.rowCount = this.rowCount +1;
             }
         }
     }
 
     /**
-     * Create a `<the-grid>` element.
+     * Create a `<paper-grid>` element.
      */
     constructor() {
         super();
@@ -229,6 +256,14 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         // The observed target is the grid element itself.
         observer.observe(this, config);
     }
+
+    ready() {
+        super.ready();
+        if(this.autoAdjustment === true){
+            window.addEventListener("resize", this._adjustToWindow.bind(this));
+            this._adjustToWindow();
+        }
+    }
     
     connectedCallback () {
         super.connectedCallback();
@@ -237,7 +272,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        if(this.autoAdjustment){
+        if(this.autoAdjustment === true){
             window.removeEventListener("resize", this._adjustToWindow.bind(this));
         }
     }
@@ -317,11 +352,11 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
      *
      * It allows hot update of the grid attributes/properties, generating an updated style sheet.
      *
-     * IMPORTANT: If you have several `<the-grid>` in your page, be sure to give them a proper `id` attribute, so they can have their own style sheet without any collision.
+     * IMPORTANT: If you have several `<paper-grid>` in your page, be sure to give them a proper `id` attribute, so they can have their own style sheet without any collision.
      */
     computeStyles() {
         const idSelector = this.id ? `#${this.id}` : '';
-        const selfSelector = `the-grid${idSelector}`;
+        const selfSelector = `paper-grid${idSelector}`;
         const startSelector = '#container > ::slotted(';
         const endSelector = ')';
         const customStyle = this._customStyle || document.createElement('custom-style');
@@ -598,29 +633,29 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         }
         return overlap;
     }
-    /**
-     * start or stop grid adjustment to the window
-     * @private
-     */
-    _autoAdjustmentChanged(newValue, oldValue){
-        // console.log("old = " + oldValue);
-        // console.log("new = " + newValue);
-        switch(true){
-            case typeof(newValue) != "boolean":
-                if(oldValue) {
-                    window.removeEventListener("resize", this._adjustToWindow.bind(this));
-                }
-                this.autoAdjustment = oldValue;
-                break;
-            case newValue:
-                this._adjustToWindow();
-                window.addEventListener("resize", this._adjustToWindow.bind(this))
-                break;
-            case !newValue:
-                window.removeEventListener("resize", this._adjustToWindow.bind(this));
-                break;
-        }
-    }
+    // /**
+    //  * start or stop grid adjustment to the window
+    //  * @private
+    //  */
+    // _autoAdjustmentChanged(newValue, oldValue){
+    //     // console.log("old = " + oldValue);
+    //     // console.log("new = " + newValue);
+    //     switch(true){
+    //         case typeof(newValue) != "boolean":
+    //             if(oldValue) {
+    //                 window.removeEventListener("resize", this._adjustToWindow.bind(this));
+    //             }
+    //             this.autoAdjustment = oldValue;
+    //             break;
+    //         case newValue:
+    //             this._adjustToWindow();
+    //             window.addEventListener("resize", this._adjustToWindow.bind(this));
+    //             break;
+    //         case !newValue:
+    //             window.removeEventListener("resize", this._adjustToWindow.bind(this));
+    //             break;
+    //     }
+    // }
     /**
      * Checks if the given width or height as `value` is within grid constraints.
      * @param {Number} value in grid unit.
@@ -701,7 +736,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         }
     }
     /**
-     * Find the tile element (direct children of `the-grid`) hosting the given resizer element.
+     * Find the tile element (direct children of `paper-grid`) hosting the given resizer element.
      * @param {HTMLElement} resizer element used as resizer gripper.
      * @returns {HTMLElement} The tile element hosting the resizer.
      */
