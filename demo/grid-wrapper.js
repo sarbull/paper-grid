@@ -1,5 +1,5 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
-import '@polymer/paper-input/paper-input.js';
+import '@polymer/paper-input/paper-input';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 import '../paper-grid.js';
 import '../debug-grid.js';
@@ -33,8 +33,25 @@ class GridWrapper extends PolymerElement {
                 <paper-input label="Cell Margin" value="{{cellMargin}}" type="number" required></paper-input>
             </div>
             <div id="container">
-                <debug-grid cell-height="{{cellHeight}}" cell-width="{{cellWidth}}" cell-margin="{{cellMargin}}" col-count="{{colCount}}" row-count="{{rowCount}}"></debug-grid>
-                <paper-grid cell-height="{{cellHeight}}" cell-width="{{cellWidth}}" cell-margin="{{cellMargin}}" col-count="{{colCount}}" row-count="{{rowCount}}" overlappable col-autogrow row-autogrow draggable resizable animated>
+                <debug-grid 
+                    cell-height="{{computeCellHeight}}" 
+                    cell-width="{{computeCellWidth}}" 
+                    cell-margin="{{computeCellMargin}}" 
+                    col-count="{{computeColCount}}" 
+                    row-count="{{computeRowCount}}">
+                </debug-grid>
+                <paper-grid 
+                    cell-height="{{computeCellHeight}}" 
+                    cell-width="{{computeCellWidth}}" 
+                    cell-margin="{{computeCellMargin}}" 
+                    col-count="{{computeColCount}}" 
+                    row-count="{{computeRowCount}}" 
+                    overlappable 
+                    col-autogrow 
+                    row-autogrow 
+                    draggable 
+                    resizable 
+                    animated>
                     <dom-repeat items="{{boxes}}">
                         <template>
                             <tile col$="{{item.col}}" row$="{{item.row}}" height$="{{item.height}}" width$="{{item.width}}">
@@ -76,22 +93,52 @@ class GridWrapper extends PolymerElement {
             },
             cellWidth: {
                 type: Number,
-                value: 100
+                value: 100,
+                observer: '_observerCellWidth'
             },
             cellHeight: {
                 type: Number,
-                value: 100
+                value: 100,
+                observer: '_observerCellHeight'
             },
             cellMargin: {
                 type: Number,
-                value: 10
+                value: 10,
+                observer: '_observerCellMargin'
             },
             rowCount: {
                 type: Number,
+                observer: '_observerRowCount',
                 value: 10
             },
             colCount: {
                 type: Number,
+                observer: '_observerColCount',
+                value: 17
+            },
+            computeCellWidth: {
+                type: Number,
+                notify: true,
+                value: 100
+            },
+            computeCellHeight: {
+                type: Number,
+                notify: true,
+                value: 100
+            },
+            computeCellMargin: {
+                type: Number,
+                notify: true,
+                value: 10
+            },
+            computeRowCount: {
+                type: Number,
+                notify: true,
+                value: 10
+            },
+            computeColCount: {
+                type: Number,
+                notify: true,
                 value: 17
             }
         }
@@ -101,6 +148,65 @@ class GridWrapper extends PolymerElement {
         super();
     }
 
+    /**
+     * @param newValue
+     * @private
+     */
+    _observerCellWidth(newValue){
+        if (!newValue) {
+            return;
+        }
+
+        this.computeCellWidth = typeof newValue === 'string' ? parseInt(newValue) : newValue;
+    }
+
+    /**
+     * @param newValue
+     * @private
+     */
+    _observerCellHeight(newValue){
+        if (!newValue) {
+            return;
+        }
+
+        this.computeCellHeight = typeof newValue === 'string' ? parseInt(newValue) : newValue;
+    }
+
+    /**
+     * @param newValue
+     * @private
+     */
+    _observerCellMargin(newValue){
+        if (!newValue) {
+            return;
+        }
+
+        this.computeCellMargin = typeof newValue === 'string' ? parseInt(newValue) : newValue;
+    }
+
+    /**
+     * @param newValue
+     * @private
+     */
+    _observerRowCount(newValue){
+        if (!newValue) {
+            return;
+        }
+
+        this.computeRowCount = typeof newValue === 'string' ? parseInt(newValue) : newValue;
+    }
+
+    /**
+     * @param newValue
+     * @private
+     */
+    _observerColCount(newValue){
+        if (!newValue) {
+            return;
+        }
+
+        this.computeColCount = typeof newValue === 'string' ? parseInt(newValue) : newValue;
+    }
 }
 
 window.customElements.define('grid-wrapper', GridWrapper);

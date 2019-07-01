@@ -177,11 +177,13 @@ class DebugGrid extends PolymerElement {
     }
 
     rowCountChanged(count) {
-        this.horizontalAxes = Array.from({ length: count + 1 });
+        let row = typeof count === 'string' ? parseInt(count) : count;
+        this.horizontalAxes = Array.from({ length: row + 1 });
     }
 
     colCountChanged(count) {
-        this.verticalAxes = Array.from({ length: count + 1 });
+        let col = typeof count === 'string' ? parseInt(count) : count;
+        this.verticalAxes = Array.from({ length: col + 1 });
     }
 
     constructor() {
