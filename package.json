@@ -1,6 +1,6 @@
 {
   "name": "@fluidnext-polymer/paper-grid",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Grid component with drag and drop",
   "scripts": {
     "test-safari": "polymer test -l safari",
