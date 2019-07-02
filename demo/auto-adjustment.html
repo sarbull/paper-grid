@@ -9,15 +9,34 @@
     <script type="module" src="../paper-grid.js"></script>
 
     <style>
+
+        paper-grid tile {
+            background: #28c3fe;
+            opacity: 0.8;
+            color: white;
+            cursor: move;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         #containerOne {
             height: 300px;
             width: 350px;
-            border: solid 2px #DDDDDD;
+            border: solid 2px #ADADAD;
+            margin-bottom: 6px;
         }
         #containerTwo {
             height: 20%;
-            width: 20%;
+            width: 40%;
             border: solid 2px #ADADAD;
+        }
+
+        paper-grid tile>span:not([resize]) {
+            flex: 1;
+            text-align: center;
+            font-size: 2em;
         }
     </style>
 </head>
@@ -25,15 +44,25 @@
 <body>
     <div id="containerOne">
         <paper-grid auto-adjustment animated id="grid1" draggable cell-margin="5">
-            <tile col="1" row="1" height="1" width="1">Drag me</tile>
+            <tile col="1" row="1" height="1" width="1">
+                <span>Drag</span>
+            </tile>
         </paper-grid>
     </div>
     <div id="containerTwo">
         <paper-grid auto-adjustment animated id="grid2" draggable overlappable cell-margin="5">
-            <tile col="1" row="1" height="1" width="1">Drag me</tile>
-            <tile col="5" row="0" height="2" width="1">test0</tile>
-            <tile col="2" row="3" height="2" width="2">test1</tile>
-            <tile col="8" row="3" height="2" width="2">test2</tile>
+            <tile col="1" row="1" height="1" width="1">
+                <span>Drag</span>
+            </tile>
+            <tile col="5" row="0" height="2" width="1">
+                <span>Drag</span>
+            </tile>
+            <tile col="2" row="3" height="2" width="2">
+                <span>Drag</span>
+            </tile>
+            <tile col="8" row="3" height="2" width="2">
+                <span>Drag</span>
+            </tile>
         </paper-grid>
     </div>
 </body>
