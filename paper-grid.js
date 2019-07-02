@@ -4,15 +4,10 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 
 /**
  * @demo demo/index.html Demos
- * @demo demo / playground.html Playground
- * @demo demo / responsive.html Responsiveness
+ * @demo demo/playground.html Playground
+ * @demo demo/responsive.html Responsiveness
+ * @demo demo/auto-adjustment.html Auto Adjustment
  */
-
-/**
- * @customElement
- * @polymer
- */
-
 class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) {
 
     static get template() {
@@ -52,7 +47,6 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
 
                 /* Style Tile inside Slot */
                 #container > ::slotted(tile){
-                    background: tomato;
                     opacity: 0.8;
                     color: white;
                     cursor: move;
@@ -220,7 +214,6 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
      * @private
      */
     _adjustToWindow() {
-        console.log('SUCA');
         let parent = this.parentNode;
         if(parent.clientWidth < this.clientWidth){
             while(parent.clientWidth < this.clientWidth){
@@ -266,11 +259,17 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     connectedCallback () {
         super.connectedCallback();
         this.computeStyles();
     }
 
+    /**
+     * @inheritDoc
+     */
     disconnectedCallback() {
         super.disconnectedCallback();
         if(this.autoAdjustment === true){
@@ -280,6 +279,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
 
     /**
      * Handle event attachment when a mutation occurs. If call without any mutation update all current tiles/children.
+     *
      * @param {MutationRecord} [record] Mutation record holding the added or removed nodes.
      * @private
      */
@@ -303,6 +303,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
             });
         }
     }
+
     /**
      * Adds and removes tracking events depending on the `resizable` and `draggable` properties.
      * @param {HTMLElement} node Node to add/remove listener on.
@@ -348,12 +349,9 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
             }
         }
     }
+
     /**
      * Compute the style sheet of the grid depending on its attributes/properties.
-     *
-     * It allows hot update of the grid attributes/properties, generating an updated style sheet.
-     *
-     * IMPORTANT: If you have several `<paper-grid>` in your page, be sure to give them a proper `id` attribute, so they can have their own style sheet without any collision.
      */
     computeStyles() {
         const idSelector = this.id ? `#${this.id}` : '';
@@ -405,8 +403,10 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         // Local DOM (Shadow or Shady) customization using inner stylesheet.
         this.updateStyles(styleVars);
     }
+
     /**
      * Increase the grid size if the given tile is out of grid bounds.
+
      * @param {HTMLElement} tile Tile to fit in the grid bounds.
      */
     ensureSpace(tile) {
@@ -417,10 +417,11 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
             this.colCount = Math.max(this.colCount, +tile.getAttribute("col") + +tile.getAttribute("width"));
         }
     }
+
     /**
      * Process events related to a player being moved.
      * @private
-     * @fires TheGrid#move
+     * @fires PaperGrid#move
      */
     _handleMove(e) {
         let player = e.target,
@@ -469,10 +470,11 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
             player.style.transition = '';
             player.style.zIndex = '';
             this.placeholder.style.display = '';
+
             /**
              * `move` event when tile is dropped.
              *
-             * @event TheGrid#move
+             * @event PaperGrid#move
              * @type {object}
              * @property {HTMLElement} grid - The grid in which the event occurred.
              * @property {HTMLElement} tile - The tile that has been moved.
@@ -490,6 +492,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         e.preventDefault();
         e.stopPropagation();
     }
+
     /**
      * Process events related to a player being resized.
      * @private
@@ -576,10 +579,11 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                 player.style.transition = '';
             }, 500);
             this.placeholder.style.display = '';
+
             /**
              * `resize` event when resizer/gripper is dropped.
              *
-             * @event TheGrid#resize
+             * @event PaperGrid#resize
              * @type {object}
              * @property {HTMLElement} grid - The grid in which the event occurred.
              * @property {HTMLElement} tile - The tile that has been resized.
@@ -597,6 +601,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         e.preventDefault();
         e.stopPropagation();
     }
+
     /**
      * Check the existence of the #preventDefault method before calling it.
      * @param {Event} event the event to prevent
@@ -605,6 +610,7 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
     _safePreventDefault(event) {
         event.preventDefault && event.preventDefault();
     }
+
     /**
      * Checks for overlaps with other tiles.
      * @param {Number} col
@@ -646,8 +652,10 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
     _isWithinConstraints(value, min = 1, max = Infinity) {
         return value >= min && value <= max;
     }
+
     /**
      * Extract the position attributes (`row`, `col`) and size attributes (`width`, `height`) of the given tile element.
+     *
      * @param {HTMLElement} tile Tile to read attributes from.
      * @returns {{col: number, row: number, width: number, height: number}} The position and size of the given tile as raw object.
      */
@@ -659,13 +667,15 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
             height: +tile.getAttribute('height')
         }
     }
+
     /**
      * Find the closest player position (column and row as indexes) for the given X and Y.
+     *
      * @param {number} x position in pixels on X screen axis.
      * @param {number} y position in pixels on Y screen axis.
-     * @param {number} [rows=1] indicates the height in grid units of the player being positioned. This ensure the returned position take into account the size of the player.
-     * @param {number} [cols=1] indicates the width in grid units of the player being positioned. This ensure the returned position take into account the size of the player.
-     * @param {boolean} [floorHalf=false] Tells whether we need to floor or ceil when the value is half (e.g. 1.5, 3.5, 12.5, ...).
+     * @param {number} rows indicates the height in grid units of the player being positioned. This ensure the returned position take into account the size of the player.
+     * @param {number} cols indicates the width in grid units of the player being positioned. This ensure the returned position take into account the size of the player.
+     * @param {boolean} floorHalf Tells whether we need to floor or ceil when the value is half (e.g. 1.5, 3.5, 12.5, ...).
      * @returns {{col: number, row: number}} The closest position as an object with a `row` and `col` properties.
      */
     getClosestPosition(x, y, rows = 1, cols = 1, floorHalf = false) {
@@ -693,12 +703,14 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
             row: Math.max(Math.min(position.row, this.rowAutogrow ? Infinity : this.rowCount - rows), 0)
         }
     }
+
     /**
      * Find the closest player size (width and height as grid units) for the given width and height.
+     *
      * @param {number} width width in pixels.
      * @param {number} height height in pixels.
-     * @param {number} [maxWidth=this.colCount] indicates the max width allowed for the returned size. This ensure the returned size fall into the grid by taking into account the player position.
-     * @param {number} [maxHeight=this.rowCount] indicates the max height allowed for the returned size. This ensure the returned size fall into the grid by taking into account the player position.
+     * @param {number} maxWidth indicates the max width allowed for the returned size. This ensure the returned size fall into the grid by taking into account the player position.
+     * @param {number} maxHeight indicates the max height allowed for the returned size. This ensure the returned size fall into the grid by taking into account the player position.
      * @returns {{width: number, height: number}} The closest size as an object with a `width` and `height` properties.
      */
     getClosestSize(width, height, maxWidth = this.colCount, maxHeight = this.rowCount) {
@@ -714,8 +726,10 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
             height: Math.max(Math.min(size.height, this.rowAutogrow ? Infinity : maxHeight), 1)
         }
     }
+
     /**
      * Find the tile element (direct children of `paper-grid`) hosting the given resizer element.
+     *
      * @param {HTMLElement} resizer element used as resizer gripper.
      * @returns {HTMLElement} The tile element hosting the resizer.
      */
@@ -726,9 +740,10 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
         }
         return current !== this && current !== resizer ? current : undefined;
     }
+
     /**
      * Output as JSON array the current positions and sizes of all tiles.
-     * Represents the serialized state of the grid.
+     * Represents the serialized state of the paper grid.
      *
      * @returns {Array<{col: Number, row: Number, width: Number, height: Number}>} Array of tile's coordinates (position and size) objects.
      */
