@@ -3,7 +3,7 @@ import { html } from '@polymer/polymer/polymer-element.js';
 export const gridStyles = html`
 <style>
     paper-grid tile {
-        background: tomato;
+        background: #00fe70;
         opacity: 0.8;
         color: white;
         cursor: move;
