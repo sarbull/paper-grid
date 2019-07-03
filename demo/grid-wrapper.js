@@ -1,6 +1,7 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
-import '@polymer/paper-input/paper-input';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
+import '@polymer/paper-card/paper-card';
+import '@polymer/paper-input/paper-input';
 import '../paper-grid.js';
 import '../debug-grid.js';
 import { gridStyles } from './grid-styles.js';
@@ -9,29 +10,35 @@ class GridWrapper extends PolymerElement {
     static get template() {
         return html`
             <style>
+                paper-card {
+                    padding: 8px;
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 16px;
+                }
+                
+                paper-input {
+                    flex-basis: 25%;
+                    padding-right: 6px;
+                }
+                
                 :host {
                     display: block;
                 }
                 #container{
                     display: block;
                 }
-                #containerInput{
-                    display: flex;
-                    justify-content: space-between;
-                    width: 70%;
-                    padding: 10px;
-                    margin: 20px;
-                    border: 1px solid #000;
-                }
+              
             </style>
             ${gridStyles}
-            <div id="containerInput">
+            <paper-card>
                 <paper-input label="Cell Height" value="{{cellHeight}}" type="number" required></paper-input>
                 <paper-input label="Cell Width" value="{{cellWidth}}" type="number" required></paper-input>
                 <paper-input label="Col Count" value="{{colCount}}" type="number" required></paper-input>
                 <paper-input label="Row Count" value="{{rowCount}}" type="number" required></paper-input>
                 <paper-input label="Cell Margin" value="{{cellMargin}}" type="number" required></paper-input>
-            </div>
+            </paper-card>
             <div id="container">
                 <debug-grid 
                     cell-height="{{computeCellHeight}}" 

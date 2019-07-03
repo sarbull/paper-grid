@@ -101,21 +101,37 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                 reflectToAttribute: true,
                 observer: 'computeStyles'
             },
+            /**
+             * Define the min with of the grid
+             * @type {number}
+             */
             minWidth: {
                 type: Number,
                 value: 1,
                 reflectToAttribute: true
             },
+            /**
+             * Define the max with of the grid
+             * @type {number}
+             */
             maxWidth: {
                 type: Number,
                 value: Infinity,
                 reflectToAttribute: true
             },
+            /**
+             * Defines min height of the grid
+             * @type {number}
+             */
             minHeight: {
                 type: Number,
                 value: 1,
                 reflectToAttribute: true
             },
+            /**
+             * Defines max height of the grid
+             * @type {number}
+             */
             maxHeight: {
                 type: Number,
                 value: Infinity,
