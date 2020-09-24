@@ -51,9 +51,9 @@ class PaperGrid extends mixinBehaviors([GestureEventListeners], PolymerElement) 
                     color: white;
                     cursor: move;
                     overflow: hidden;
-                    display: flex;
+                    /*display: flex;
                     justify-content: center;
-                    align-items: center;
+                    align-items: center;*/
 
                     @apply --paper-grid-tile-style;
                 }
